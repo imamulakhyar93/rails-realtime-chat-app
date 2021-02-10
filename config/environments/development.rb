@@ -69,14 +69,14 @@ Rails.application.configure do
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
-  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
    # Add Rack::LiveReload to the bottom of the middleware stack with the default options:
-  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
+  # config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 
   # or, if you're using better_erros with rails 6.
-  config.middleware.insert_before Rack::Runtime, Rack::LiveReload
-  config.middleware.use(Rack::LiveReload, no_swf: true)
+  # config.middleware.insert_before Rack::Runtime, Rack::LiveReload
+  # config.middleware.use(Rack::LiveReload, no_swf: true)
 end

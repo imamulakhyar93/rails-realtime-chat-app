@@ -1,9 +1,15 @@
-<div class="rounded-lg bg-royalblue-300 mb-2 py-2 px-3">
-  <div class="font-bold text-xs opacity-25 text-left"><%= message.sender %>:</div>
-  <div class="text-sm text-left opacity-75">
-    <%= message.body %>
+<% if message.message_type == 'User'%>
+  <div data-controller="message-scroll" class="rounded-lg bg-royalblue-200 mb-2 py-2 px-3">
+    <div class="font-bold text-xs opacity-25 text-left"><%= message.sender %>:</div>
+    <div class="text-sm text-left opacity-75">
+      <%= message.body %>
+    </div>
+    <div class="text-xs opacity-50 italic text-right">
+      <span class="timeago" datetime="<%= message.created_at %>"></span>
+    </div>
   </div>
-  <div class="text-xs opacity-50 italic text-right">
-    <span class="timeago" datetime="<%= message.created_at %>"></span>
+<% else %>
+  <div data-controller="message-scroll" class="p-1 text-xs text-center opacity-25">
+    <%= message.sender %> <%= message.body %> - <span class="timeago" datetime="<%= message.created_at %>"></span>
   </div>
-</div>
+<% end %>

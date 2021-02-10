@@ -1,20 +1,12 @@
 import { Controller } from "stimulus";
+import { getControllerByName } from "./helper";
 export default class extends Controller {
   static targets = ["inputMessage", "composeMessage"];
   static values = { username: String };
 
-  initialize() {
-    this.element.onkeydown = (event) => {
-      if (event.keyCode == 13) {
-        event.preventDefault();
-        return;
-      }
-    };
-  }
-
   inputMessageKeyUp(event) {
     if (event.keyCode == 13) {
-      this.element.submit();
+      getControllerByName(this, "main").formMessageTarget.requestSubmit();
     }
   }
 
@@ -29,5 +21,13 @@ export default class extends Controller {
   showComposeMessage() {
     this.composeMessageTarget.classList.remove("hidden");
     this.composeMessageTarget.classList.add("flex");
+  }
+
+  onFormMessageSubmit() {
+    this.inputMessageTarget.value = "";
+  }
+
+  focusToInput() {
+    this.inputMessageTarget.focus();
   }
 }

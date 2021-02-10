@@ -1,11 +1,14 @@
 class MessagesController < ApplicationController
   def index
-
+    @messages = Message.all
   end
 
   def create
     @message = Message.create(message_params)
-    redirect_to root_path
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to root_path }
+    end
   end
 
   private

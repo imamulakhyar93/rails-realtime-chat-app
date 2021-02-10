@@ -1,41 +1,44 @@
-<%= form_with model: Message.new, url: messages_path, class: 'max-w-lg w-full flex flex-col h-screen py-5', data: { controller: 'message' } do |form| %>
-  <div class="p-2">
-    <div data-controller="user">
-      <div data-user-target="formUser" class="rounded-lg shadow-inner bg-royalblue-50 w-full px-5 py-8 text-center">
-        <h3 class="mb-5 opacity-50">Welcome, Please input your name to start chatting!</h3>
-        <%= form.text_field :sender,
-              data: {
-                action: 'keyup->user#inputNameKeyUp',
-                'user-target': 'inputName'
-              },
-              placeholder: 'Input your name',
-              class: 'rounded-full focus:outline-none focus:border-royalblue-300 px-5 py-3 shadow-inner border max-w-sm w-full'
-        %>
-        <div class="text-xs mt-2 mb-5 opacity-50 italic">* Please input without space or symbols.</div>
-        <a href="#" data-action="user#signin" class="bg-royalblue-400 transition-colors duration-300 focus:outline-none hover:bg-royalblue-500 cursor-pointer px-8 py-3 rounded-lg shadow-sm text-white font-bold">
-          Set name
-        </a>
+<div class="max-w-lg w-full flex flex-col h-screen py-5">
+  <%= turbo_stream_from 'messages' %>
+  <%= turbo_frame_tag 'messages', class: 'rounded-lg bg-royalblue-50 flex-grow w-full px-3 py-4 text-center overflow-y-auto' do %>
+    <% @messages.each do |message| %>
+      <%= render 'messages/partials/message_item', message: message %>
+    <% end %>
+  <% end %>
+  <%= turbo_frame_tag 'new_message', target: 'messages' do %>
+    <%= form_with model: Message.new, url: messages_path, data: { 'main-target': 'formMessage', action: 'turbo:submit-end->main#onFormMessageSubmit' } do |form| %>
+      <div data-controller="user" class="mt-5">
+        <div data-user-target="formUser" class="rounded-lg shadow-inner bg-royalblue-50 w-full px-5 py-8 text-center">
+          <h3 class="mb-5 opacity-50">Welcome, Please input your name to start chatting!</h3>
+          <%= form.text_field :sender,
+                data: {
+                  action: 'keyup->user#inputNameKeyUp',
+                  'user-target': 'inputName'
+                },
+                placeholder: 'Input your name',
+                class: 'rounded-full focus:outline-none focus:border-royalblue-300 px-5 py-3 shadow-inner border max-w-sm w-full'
+          %>
+          <div class="text-xs mt-2 mb-5 opacity-50 italic">* Please input without space or symbols.</div>
+          <a href="#" data-action="user#signin" class="bg-royalblue-400 transition-colors duration-300 focus:outline-none hover:bg-royalblue-500 cursor-pointer px-8 py-3 rounded-lg shadow-sm text-white font-bold">
+            Set name
+          </a>
+        </div>
+        <div class="text-xs opacity-50 mb-1 text-left" data-user-target="signedInMsg"></div>
       </div>
-      <div class="text-xs opacity-50 mb-1 text-left" data-user-target="signedInMsg"></div>
-    </div>
-  </div>
-  <div class="flex-grow flex flex-col overflow-hidden p-2">
-    <div class="rounded-lg bg-royalblue-50 w-full h-full px-3 py-4 text-center overflow-y-auto">
-      <% Message.all.each do |message| %>
-        <%= render 'messages/partials/message_item', message: message %>
-      <% end %>
-    </div>
-    <div class="hidden mt-4" data-message-target="composeMessage">
-      <%= form.text_field :body,
-        placeholder: 'Type your message',
-        data: {
-          action: 'keyup->message#inputMessageKeyUp',
-          'message-target': 'inputMessage',
-        },
-        class: 'focus:outline-none shadow-inner rounded-full border focus:border-royalblue-300 border-black-100 px-5 py-3 flex-grow'
-      %>
-      <%= form.submit 'Send', class: 'px-8 ml-2 rounded-full bg-royalblue-400 hover:bg-royalblue-500 transition-colors duration-300 text-white cursor-pointer' %>
-    </div>
-  </div>
-<% end %>
+      <div data-controller="message" class="flex-grow flex flex-col p-2">
+        <div class="hidden" data-message-target="composeMessage">
+          <%= form.text_field :body,
+            placeholder: 'Type your message',
+            data: {
+              action: 'keyup->message#inputMessageKeyUp',
+              'message-target': 'inputMessage',
+            },
+            class: 'focus:outline-none shadow-inner rounded-full border focus:border-royalblue-300 border-black-100 px-5 py-3 flex-grow'
+          %>
+          <%= form.submit 'Send', class: 'px-8 ml-2 rounded-full bg-royalblue-400 hover:bg-royalblue-500 transition-colors duration-300 text-white cursor-pointer' %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 

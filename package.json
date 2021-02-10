@@ -2,14 +2,14 @@
   "name": "demo-chat-app",
   "private": true,
   "dependencies": {
+    "@hotwired/turbo-rails": "^7.0.0-beta.5",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.2.1",
     "stimulus": "^2.0.0",
     "tailwindcss": "^1.9.6",
-    "timeago.js": "^4.0.2",
-    "turbolinks": "^5.2.0"
+    "timeago.js": "^4.0.2"
   },
   "version": "0.1.0",
   "devDependencies": {
