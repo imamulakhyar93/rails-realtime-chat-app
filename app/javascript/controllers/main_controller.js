@@ -8,7 +8,7 @@ export default class extends Controller {
   initialize() {
     // Initialize timeago
     const nodes = this.element.querySelectorAll(".timeago");
-    if (nodes.lengt > 0) render(nodes, "en_US");
+    if (nodes.length > 0) render(nodes, "en_US");
 
     // prevent submit when pressing enter on fields
     this.formMessageTarget.onkeydown = (event) => {
