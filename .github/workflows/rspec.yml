@@ -14,46 +14,34 @@ jobs:
       base-dir: ./
     services:
       postgres:
-        image: postgres:12.5
-        ports: ["5432:5432"]
+        image: postgres:13
         env:
-          POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
+          POSTGRES_PASSWORD: "postgres"
+        ports: ["5432:5432"]
+         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      redis:
-        image: redis
-        ports: ["6379:6379"]
-
+    
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up ruby and restore/install gem dependencies
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-
-      - name: Install PostgreSQL
-        run: sudo apt-get -yqq install libpq-dev
-
-      - name: Run bundle install
-        working-directory: ${{env.base-dir}}
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
-      - name: Setup Database
-        working-directory: ${{env.base-dir}}
-        env:
-          RAILS_ENV: test
-          POSTGRES_USER: "postgres"
-          POSTGRES_HOST: postgres
-        run: bin/rails db:create && db:migrate
-
-      - name: Build and test with rspec
-        working-directory: ${{env.base-dir}}
-        env:
-          RAILS_ENV: test
-          POSTGRES_USER: "postgres"
-          POSTGRES_HOST: postgres
-        run: bundle exec rspec spec
+          bundler-cache: true
+      - name: Restore node dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}  
+      - name: Install node dependencies
+        run: yarn install --frozen-lockfile
+      - name: Create database
+        run: RAILS_ENV=test bundle exec rails db:create
+      - name: Run tests
+        run: bundle exec rspec
+  
