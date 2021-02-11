@@ -1,10 +1,10 @@
-name: CI RSpec Test
+name: RSpec
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
