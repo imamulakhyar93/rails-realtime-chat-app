@@ -2,7 +2,9 @@
 
 # rails-realtime-chat-app
 
-This is a demo realtime chat application build using ActionCable, Turbo, Stimulus and Tailwind
+![Screenshot](https://monosnap.com/image/qvFlRwM7RLRHeSZ5bVWcWMJMmQjFIY)
+
+This is a demo realtime chat application build using ActionCable, Turbo, Stimulus and Tailwind. See the [demo](https://hotwire-rails-chat.herokuapp.com/) on heroku.
 
 ## Installation & Usage
 
