@@ -1,4 +1,5 @@
-![RSpec](https://github.com/imamulakhyar93/rails-realtime-chat-app/workflows/RSpec/badge.svg)
+![RSpec & Jest](https://github.com/imamulakhyar93/rails-realtime-chat-app/workflows/RSpec%20&%20Jest/badge.svg)
+
 # rails-realtime-chat-app
 
 This is a demo realtime chat application build using ActionCable, Turbo, Stimulus and Tailwind
