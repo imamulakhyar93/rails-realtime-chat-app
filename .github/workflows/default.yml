@@ -45,8 +45,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install node dependencies
-        # run: yarn install --frozen-lockfile
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Create database
         run: RAILS_ENV=test bundle exec rails db:create
       - name: Run tests
@@ -70,7 +69,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install node dependencies
-        # run: yarn install --frozen-lockfile
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Running Jest
         run: yarn test
