@@ -19,34 +19,29 @@ module Base
     end
 
     def _run_array_step(step)
-      step_dup = step.dup
-      last_step = step_dup.pop
-      step_dup.each do |i|
-        res = _run_step(i)
-        @result = res
-        @results[i.name] = res
+      ActiveRecord::Base.transaction do
+        step_dup = step.dup
+        last_step = step_dup.pop
+        step_dup.each do |step_item|
+          res = send(step_item.name)
+          @result = res
+          @results[step_item.name] = res
+        end
+        send(last_step.name)
       end
-      _run_step(last_step)
+    rescue StandardError => e
+      @errors << e.message
+      nil
     end
 
     def _run_normal_step(step)
-      res = _run_step(step)
+      res = send(step.name)
       @result = res
       @results[step.name] = res
-    end
-
-    def _run_step(step)
-      begin
-        if step.transaction
-          ActiveRecord::Base.transaction do
-            send(step.name)
-          end
-        else
-          send(step.name)
-        end
-      rescue StandardError => e
-        @errors << e.message
-      end
+      res
+    rescue StandardError => e
+      @errors << e.message
+      nil
     end
 
     module ClassMethods
