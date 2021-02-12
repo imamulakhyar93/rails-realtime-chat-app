@@ -1,0 +1,18 @@
+<div data-controller="user" class="mt-5">
+  <div data-user-target="formUser" class="rounded-lg shadow-inner bg-royalblue-50 w-full px-5 py-8 text-center">
+    <h3 class="mb-5 opacity-50">Welcome, Please input your name to start chatting!</h3>
+    <%= form.text_field :sender,
+          data: {
+            action: 'keyup->user#onInputNameEnter',
+            'user-target': 'inputName'
+          },
+          placeholder: 'Input your name',
+          class: 'rounded-full focus:outline-none focus:border-royalblue-300 px-5 py-3 shadow-inner border max-w-sm w-full'
+    %>
+    <div class="text-xs mt-2 mb-5 opacity-50 italic">* Please input without space or symbols.</div>
+    <a href="#" data-action="user#signIn" class="bg-royalblue-400 transition-colors duration-300 focus:outline-none hover:bg-royalblue-500 cursor-pointer px-8 py-3 rounded-lg shadow-sm text-white font-bold">
+      Set name
+    </a>
+  </div>
+  <div class="text-xs opacity-50 mb-1 text-left" data-user-target="welcomeMessage"></div>
+</div>

@@ -1,0 +1,14 @@
+<%= turbo_stream.replace 'load_more' do %>
+  <% if @next_page %>
+    <%= turbo_frame_tag 'load_more' do %>
+      <%= form_with url: load_messages_path, method: :get do |form| %>
+        <%= form.hidden_field :page, value: @next_page %>
+        <%= form.submit 'Load next' %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% @messages.reverse.each do |message| %>
+    <%= render 'messages/partials/message_item', message: message %>
+  <% end %>
+<% end %>

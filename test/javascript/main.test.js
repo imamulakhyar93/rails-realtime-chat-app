@@ -3,7 +3,7 @@ import userController from "../../app/javascript/controllers/user_controller";
 import messageController from "../../app/javascript/controllers/message_controller";
 import { startApplication, getControllerByName } from "./test_helper";
 
-describe("Main Controller", () => {
+describe("Main Page", () => {
   let app = null;
   beforeEach(() => {
     const div = window.document.createElement("div");
@@ -12,18 +12,18 @@ describe("Main Controller", () => {
       <div data-controller="main" data-main-username-value="">
         <span class="timeago" datetime="${new Date()}"></span>
         <form data-main-target="formMessage" data-action="turbo:submit-end->main#onFormMessageSubmit">
-          <div data-controller="user" data-user-username-value="">
+          <div data-controller="user">
             <div data-user-target="formUser">
-              <input data-action="keyup->user#inputNameKeyUp" data-user-target="inputName" type="text" name="message[sender]" id="message_sender">
-              <a href="#" data-action="user#signin">
+              <input data-action="keyup->user#onInputNameEnter" data-user-target="inputName" type="text" name="message[sender]" id="message_sender">
+              <a href="#" data-action="user#signIn">
                 Set name
               </a>
             </div>
-            <div data-user-target="signedInMsg"></div>
+            <div data-user-target="welcomeMessage"></div>
           </div>
           <div data-controller="message">
             <div class="hidden" data-message-target="composeMessage">
-              <input placeholder="Type your message" data-action="keyup->message#inputMessageKeyUp"
+              <input placeholder="Type your message" data-action="keyup->message#onInputMessageEnter"
                 data-message-target="inputMessage"
                 type="text" name="message[body]" id="message_body">
               <input type="submit" name="commit" value="Send" data-disable-with="Send">
@@ -50,11 +50,6 @@ describe("Main Controller", () => {
       expect(span.getAttribute("timeago-id")).not.toBeNull();
     });
 
-    it("Name must be empty at the first page load", () => {
-      const mainCtrl = getControllerByName(app, "main");
-      expect(mainCtrl.usernameValue).toBe("");
-    });
-
     it("Form input user, must be shown", () => {
       const formUser = window.document.querySelector(
         '[data-user-target="formUser"]'
@@ -63,10 +58,10 @@ describe("Main Controller", () => {
     });
 
     it("Welcome message must be empty", () => {
-      const signedInMsg = window.document.querySelector(
-        '[data-user-target="signedInMsg"]'
+      const welcomeMessage = window.document.querySelector(
+        '[data-user-target="welcomeMessage"]'
       );
-      expect(signedInMsg.textContent).toBe("");
+      expect(welcomeMessage.textContent).toBe("");
     });
   });
 
@@ -96,10 +91,10 @@ describe("Main Controller", () => {
       });
 
       it("Welcome message must be shown", () => {
-        const signedInMsg = window.document.querySelector(
-          '[data-user-target="signedInMsg"]'
+        const welcomeMessage = window.document.querySelector(
+          '[data-user-target="welcomeMessage"]'
         );
-        expect(signedInMsg.textContent).toBe(
+        expect(welcomeMessage.textContent).toBe(
           "Hi Imam, welcome and start chatting!"
         );
       });
@@ -113,7 +108,7 @@ describe("Main Controller", () => {
         const formUser = window.document.querySelector(
           '[data-user-target="formUser"]'
         );
-        expect(formUser.getAttributeNames()).toContain("hidden");
+        expect(formUser.classList).toContain("hidden");
       });
 
       it("Message composer must be shown", () => {

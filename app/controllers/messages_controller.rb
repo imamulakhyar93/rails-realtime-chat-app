@@ -1,20 +1,22 @@
 class MessagesController < ApplicationController
-  def index
-    @messages = Message.all
-  end
+  def index; end
 
   def create
-    @message = Message.create(message_params)
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to root_path }
-    end
+    return unless turbo_stream?
+
+    run Service::MessageCreate
+    render nothing: true
   end
 
-  private
+  # create lazyload turbo frame on page loaded
+  def load
+    run Service::MessageList
+    @messages = result
+    @next_page = results[:query].next_page
 
-  def message_params
-    params.require(:message)
-          .permit(:sender, :body)
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 end

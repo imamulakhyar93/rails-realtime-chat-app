@@ -3,11 +3,11 @@ import { render } from "timeago.js";
 export default class extends Controller {
   initialize() {
     this.initializeTimeAgo();
-    this.scrollMessagesToBottom();
-  }
-
-  scrollMessagesToBottom() {
-    this.element.parentNode.scrollTop = this.element.parentNode.scrollHeight;
+    this.element.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
   }
 
   initializeTimeAgo() {

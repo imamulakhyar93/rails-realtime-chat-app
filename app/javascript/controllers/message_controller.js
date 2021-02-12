@@ -2,20 +2,9 @@ import { Controller } from "stimulus";
 import { getControllerByName } from "./helper";
 export default class extends Controller {
   static targets = ["inputMessage", "composeMessage"];
-  static values = { username: String };
 
-  inputMessageKeyUp(event) {
-    if (event.keyCode == 13) {
-      getControllerByName(this, "main").formMessageTarget.requestSubmit();
-    }
-  }
-
-  usernameValueChanged() {
-    if (this.usernameValue == null || this.usernameValue == "") {
-      this.element.hidden = true;
-    } else {
-      this.element.hidden = false;
-    }
+  resetInputMessage() {
+    this.inputMessageTarget.value = "";
   }
 
   showComposeMessage() {
@@ -23,11 +12,20 @@ export default class extends Controller {
     this.composeMessageTarget.classList.add("flex");
   }
 
-  onFormMessageSubmit() {
-    this.inputMessageTarget.value = "";
-  }
-
   focusToInput() {
     this.inputMessageTarget.focus();
+  }
+
+  submitFormMessage() {
+    getControllerByName(this, "main").formMessageTarget.requestSubmit();
+  }
+
+  // Event handler
+  onInputMessageEnter(event) {
+    const isEnter = event.keyCode == 13;
+    if (isEnter) {
+      this.submitFormMessage();
+      this.resetInputMessage();
+    }
   }
 }

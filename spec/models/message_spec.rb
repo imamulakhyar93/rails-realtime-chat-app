@@ -13,7 +13,7 @@ describe Message, type: :model do
       expect(message.save).to be_truthy
     end
 
-    it 'created with empty parameter' do
+    it 'should not be created when parameter is empty' do
       message = Message.new
       expect(message.save).to be_falsey
     end
