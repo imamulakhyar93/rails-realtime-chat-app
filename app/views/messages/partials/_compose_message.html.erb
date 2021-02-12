@@ -1,12 +1,12 @@
-<div data-controller="message" class="flex-grow flex flex-col p-2">
-  <div class="hidden" data-message-target="composeMessage">
+<div data-controller="message" class="flex-grow flex flex-col overflow-hidden">
+  <div class="hidden p-2" data-message-target="composeMessage">
     <%= form.text_field :body,
       placeholder: 'Type your message',
       data: {
         action: 'keyup->message#onInputMessageEnter',
         'message-target': 'inputMessage',
       },
-      class: 'focus:outline-none shadow-inner rounded-full border focus:border-royalblue-300 border-black-100 px-5 py-3 flex-grow'
+      class: 'focus:outline-none shadow-inner rounded-full border focus:border-royalblue-300 border-black-100 px-5 py-3 flex-grow w-full'
     %>
     <%= form.submit 'Send', class: 'px-8 ml-2 rounded-full bg-royalblue-400 hover:bg-royalblue-500 transition-colors duration-300 text-white cursor-pointer' %>
   </div>

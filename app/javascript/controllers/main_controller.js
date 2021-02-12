@@ -1,6 +1,6 @@
 import { Controller } from "stimulus";
 import { render } from "timeago.js";
-import { getControllerByName } from "./helper";
+import "form-request-submit-polyfill";
 export default class extends Controller {
   static targets = ["formMessage"];
 
@@ -21,5 +21,9 @@ export default class extends Controller {
         return;
       }
     };
+  }
+
+  submitFormMessage() {
+    this.formMessageTarget.requestSubmit();
   }
 }

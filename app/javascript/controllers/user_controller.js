@@ -24,12 +24,15 @@ export default class extends Controller {
 
   showFormAndSubcribe() {
     getControllerByName(this, "message").showComposeMessage();
-    getControllerByName(this, "message").focusToInput();
     this.welcomeMessageTarget.innerHTML = `Hi <b>${this.inputName}</b>, welcome and start chatting!`;
     consumer.subscriptions.create({
       channel: "ChatChannel",
       username: this.inputName,
     });
+    // Wait a moment to make sure element is shown correctly
+    setTimeout(() => {
+      getControllerByName(this, "message").focusToInput();
+    }, 100);
   }
 
   setUsername() {

@@ -1,6 +1,6 @@
-<div data-controller="main" class="max-w-lg w-full flex flex-col h-screen py-5">
+<div data-controller="main" class="max-w-lg w-full flex flex-col h-screen overflow-hidden">
   <%= turbo_stream_from 'messages' %>
-  <%= turbo_frame_tag 'messages', src: load_messages_path, class: 'rounded-lg bg-royalblue-50 flex-grow w-full px-3 py-4 text-center overflow-y-auto' %>
+  <%= turbo_frame_tag 'messages', src: load_messages_path, class: 'rounded-lg bg-royalblue-50 flex-grow w-full h-full px-3 py-4 text-center overflow-y-auto' %>
   <%= turbo_frame_tag 'new_message', target: 'messages' do %>
     <%= form_with model: Message.new, url: messages_path, data: { 'main-target': 'formMessage', action: 'turbo:submit-end->message#onFormMessageSubmit' } do |form| %>
       <%= render 'messages/partials/input_user', form: form %>

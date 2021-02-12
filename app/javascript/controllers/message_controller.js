@@ -17,7 +17,7 @@ export default class extends Controller {
   }
 
   submitFormMessage() {
-    getControllerByName(this, "main").formMessageTarget.requestSubmit();
+    getControllerByName(this, "main").submitFormMessage();
   }
 
   // Event handler

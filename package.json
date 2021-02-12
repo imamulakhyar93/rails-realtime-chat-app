@@ -8,6 +8,7 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.2.1",
     "@types/jest": "^26.0.20",
+    "form-request-submit-polyfill": "^2.0.0",
     "stimulus": "^2.0.0",
     "tailwindcss": "^1.9.6",
     "timeago.js": "^4.0.2"
